@@ -10,7 +10,7 @@
     <bean id="okHttpClient" class="okhttp3.OkHttpClient"/>
 
     <!--Spring引入外部配置文件-->
-    <context:property-placeholder location="classpath:openApi.properties" />
+    <context:property-placeholder location="classpath:openApi.properties" ignore-unresolvable="true"/>
 
     <bean id="openApi" class="cn.imldy.mriai.console.plugin.api.OpenApi">
         <property name="protocol" value="${openApi.protocol}"/>
@@ -20,7 +20,7 @@
     </bean>
 
     <!--Spring引入外部配置文件-->
-    <context:property-placeholder location="classpath:jdbc.properties" />
+    <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
     <!-- Spring管理数据库-->
     <!--    配置数据库-->
     <bean id="dataSource"
