@@ -11,6 +11,7 @@ import cn.imldy.mriai.console.plugin.mapper.PersonMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 /**
@@ -20,6 +21,12 @@ import java.io.IOException;
 @Component
 public class CardService {
     private static ApplicationContext applicationContext;
+    @Resource
+    private PersonMapper personMapper;
+    @Resource
+    private DeptMapper deptMapper;
+    @Resource
+    private CardMapper cardMapper;
 
     /**
      * 根据卡号，获取Card实例
@@ -34,9 +41,6 @@ public class CardService {
         Dept dept = context.getBean(Dept.class);
         Person person = context.getBean(Person.class);
         Card card = context.getBean(Card.class);
-        PersonMapper personMapper = context.getBean(PersonMapper.class);
-        DeptMapper deptMapper = context.getBean(DeptMapper.class);
-        CardMapper cardMapper = context.getBean(CardMapper.class);
         try {
             MuYuBaoCard muYuBaoCard = openApi.getMuYuBaoCardByNo(no);
             // 从沐浴宝卡片信息中，解析出三个类，Dept、Person、Card
