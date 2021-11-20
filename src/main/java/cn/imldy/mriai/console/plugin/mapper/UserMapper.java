@@ -12,4 +12,8 @@ public interface UserMapper {
     boolean setSouthWaterCardNoByQQId(User user);
 
     String getSouthWaterCardNoByUserQQId(String qqId);
+
+    boolean addUser(User user);
+
+    boolean isExistByQQId(User user);
 }

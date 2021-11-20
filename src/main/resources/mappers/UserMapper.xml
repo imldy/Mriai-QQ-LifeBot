@@ -4,7 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.imldy.mriai.console.plugin.mapper.UserMapper">
-
+    <insert id="addUser"
+    keyProperty="id"
+    useGeneratedKeys="true">
+        insert
+        into user(qqId,southWaterCardNo)
+        values(#{qqId},#{southWaterCardNo})
+    </insert>
     <update id="setSouthWaterCardNoByQQId">
         update user
         set
@@ -14,6 +20,11 @@
     </update>
     <select id="getSouthWaterCardNoByUserQQId" resultType="string">
         select southWaterCardNo
+        from user
+        where qqId = #{qqId}
+    </select>
+    <select id="isExistByQQId" resultType="boolean">
+        select count(*)
         from user
         where qqId = #{qqId}
     </select>
