@@ -10,7 +10,7 @@
             useGeneratedKeys="true"
     >
         insert
-        into dept(name, deptId, phone, sex)
+        into person(name, deptId, phone, sex)
         values (#{name}, #{deptId}, #{phone}, #{sex})
     </insert>
     <select id="getPersonById"
