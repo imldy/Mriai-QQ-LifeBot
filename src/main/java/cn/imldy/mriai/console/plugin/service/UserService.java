@@ -18,7 +18,13 @@ public class UserService {
     private UserMapper userMapper;
 
     public boolean bindCardByNo(User user) {
-        boolean result = userMapper.setSouthWaterCardNoByQQId(user);
+        boolean exist = userMapper.isExistByQQId(user);
+        boolean result;
+        if (exist) {
+            result = userMapper.setSouthWaterCardNoByQQId(user);
+        } else {
+            result = userMapper.addUser(user);
+        }
         return result;
     }
 
