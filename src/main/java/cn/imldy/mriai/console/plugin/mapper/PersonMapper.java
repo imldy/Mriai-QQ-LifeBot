@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface PersonMapper {
     int addPerson(Person person);
     Person getPersonById(int id);
+    Person getPersonByNamePhone(Person person);
     boolean isExist(Person person);
     boolean isExistById(Person person);
 }

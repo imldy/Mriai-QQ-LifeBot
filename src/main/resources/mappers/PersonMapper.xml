@@ -33,4 +33,11 @@
         from person
         where id=#{id}
     </select>
+    <select id="getPersonByNamePhone"
+            resultType="cn.imldy.mriai.console.plugin.bean.Person">
+        select *
+        from person
+        where phone = #{phone}
+          and name = #{name}
+    </select>
 </mapper>

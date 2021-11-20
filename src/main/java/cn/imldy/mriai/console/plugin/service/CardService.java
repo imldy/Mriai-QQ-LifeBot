@@ -56,12 +56,18 @@ public class CardService {
             person.setDept(dept);
             person.setPhone(muYuBaoCard.getPhone());
             person.setSex(muYuBaoCard.getSex());
-            if (storage && !personMapper.isExist(person)) {
-                // 如果需要保存，且数据库中无此数据
-                // 保存person数据到数据包，因id为自增，同时设置返回给定的id，所以dept对象id属性为数据库给的id
-                int row = personMapper.addPerson(person);
-                card.setOwnerId(person.getId());
+            if (storage) {
+                // 如果需要保存，
+                if (!personMapper.isExist(person)) {
+                    // 如果需要保存，且数据库中无此数据
+                    // 保存person数据到数据包，因id为自增，同时设置返回给定的id，所以dept对象id属性为数据库给的id
+                    int row = personMapper.addPerson(person);
+                } else {
+                    // 如果数据库中有此数据，根据没有id的本数据，获取有id的数据
+                    person = personMapper.getPersonByNamePhone(person);
+                }
             }
+            card.setOwnerId(person.getId());
             card.setNo(String.valueOf(muYuBaoCard.getCardNo()));
             card.setOwner(person);
             card.setStatus(muYuBaoCard.getStatus());
