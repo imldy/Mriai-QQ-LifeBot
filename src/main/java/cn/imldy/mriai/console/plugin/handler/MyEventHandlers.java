@@ -1,13 +1,16 @@
 package cn.imldy.mriai.console.plugin.handler;
 
+import cn.imldy.mriai.console.plugin.bean.User;
 import cn.imldy.mriai.console.plugin.view.CardView;
 import cn.imldy.mriai.console.plugin.view.LifeBotView;
+import cn.imldy.mriai.console.plugin.view.UserView;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Stranger;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.*;
+import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -24,6 +27,8 @@ public class MyEventHandlers extends SimpleListenerHost {
     private ApplicationContext applicationContext;
     @Resource
     private CardView cardView;
+    @Resource
+    private UserView userView;
 
     @EventHandler
     public ListeningStatus friendListener(FriendMessageEvent event) {
@@ -46,6 +51,27 @@ public class MyEventHandlers extends SimpleListenerHost {
                 subject.sendMessage(cardView.getCardFormatMessage(no));
             } else {
                 subject.sendMessage("请输入卡号，例如[311 999]");
+            }
+        } else if ("绑定".equals(fields[0])) {
+            if (fields.length >= 2) {
+                String cardType = fields[1];
+                if ("老校区水卡".equals(cardType)) {
+                    if (fields.length >= 3) {
+                        String cardNo = fields[2];
+                        long qqId = event.getSender().getId();
+                        User user = applicationContext.getBean(User.class);
+                        user.setQqId(qqId);
+                        user.setSouthWaterCardNo(cardNo);
+                        Message message = userView.bindCard(user);
+                        subject.sendMessage(message);
+                    } else {
+                        subject.sendMessage("参数数量不够，请输入要绑定的信息，例如：\n[绑定 老校区水卡 卡号] - 绑定老校区水卡");
+                    }
+                } else {
+                    subject.sendMessage("参数数量不够，请输入要绑定的信息，例如：\n[绑定 老校区水卡 卡号] - 绑定老校区水卡");
+                }
+            } else {
+                subject.sendMessage("无参数，请输入要绑定的信息，例如：\n[绑定 老校区水卡 卡号] - 绑定老校区水卡");
             }
         } else {
             subject.sendMessage(LifeBotView.getMenuMessage());

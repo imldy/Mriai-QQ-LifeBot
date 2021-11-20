@@ -14,6 +14,7 @@ public class LifeBotView {
                 .append("——菜单——\n")
                 .append("[31 卡号] - 获取老校区水卡详细信息\n")
                 .append("[311 卡号] - 获取老校区水卡格式化信息\n")
+                .append("[绑定 老校区水卡 卡号] - 绑定老校区水卡\n")
                 .build();
         return messageChain;
     }
