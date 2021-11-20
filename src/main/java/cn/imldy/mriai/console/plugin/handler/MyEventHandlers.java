@@ -1,5 +1,6 @@
 package cn.imldy.mriai.console.plugin.handler;
 
+import cn.imldy.mriai.console.plugin.view.CardView;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
@@ -8,8 +9,10 @@ import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.MessageChain;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 /**
@@ -18,8 +21,12 @@ import java.io.IOException;
  **/
 @Component
 public class MyEventHandlers extends SimpleListenerHost {
+    private ApplicationContext applicationContext;
+    @Resource
+    private CardView cardView;
+
     @EventHandler
-    public ListeningStatus friendListener(FriendMessageEvent event) throws IOException {
+    public ListeningStatus friendListener(FriendMessageEvent event) {
         MessageChain messageChain = event.getMessage();
         Friend subject = event.getSubject();
         String content = messageChain.contentToString();
@@ -28,9 +35,10 @@ public class MyEventHandlers extends SimpleListenerHost {
             subject.sendMessage("你好 :)");
         } else if ("31".equals(fields[0])) {
             if (fields.length >= 2) {
-                subject.sendMessage("[测试]\n卡号" + fields[1] + "\n余额：11");
+                String no = fields[1];
+                subject.sendMessage(cardView.getCardMessage(no));
             } else {
-                subject.sendMessage("请输入卡号");
+                subject.sendMessage("请输入卡号，例如[31 999]");
             }
         }
         return ListeningStatus.LISTENING;
@@ -46,5 +54,13 @@ public class MyEventHandlers extends SimpleListenerHost {
     public ListeningStatus bothEven(MessageEvent event) throws IOException {
 
         return ListeningStatus.LISTENING;
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    public void setCardView(CardView cardView) {
+        this.cardView = cardView;
     }
 }

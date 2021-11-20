@@ -1,6 +1,8 @@
 package cn.imldy.mriai.console.plugin;
 
 import cn.imldy.mriai.console.plugin.handler.MyEventHandlers;
+import cn.imldy.mriai.console.plugin.service.CardService;
+import cn.imldy.mriai.console.plugin.view.CardView;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.extension.PluginComponentStorage;
 import net.mamoe.mirai.console.plugin.jvm.JavaPlugin;
@@ -10,6 +12,8 @@ import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.events.BotEvent;
 import net.mamoe.mirai.event.events.BotOnlineEvent;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public final class LifeBot extends JavaPlugin {
     public static final LifeBot INSTANCE = new LifeBot();
@@ -45,7 +49,14 @@ public final class LifeBot extends JavaPlugin {
                 getLogger().info("目标QQ[" + qqBotNo + "]已登录，开始获取实例并绑定事件处理方法");
                 Bot bot = Bot.getInstance(qqBotNo);
                 EventChannel<BotEvent> eventChannel = bot.getEventChannel();
-                eventChannel.registerListenerHost(new MyEventHandlers());
+                ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+                // 给类设置静态属性
+                CardView.setApplicationContext(context);
+                CardService.setApplicationContext(context);
+                // 获取事件处理器
+                MyEventHandlers myEventHandlers = context.getBean(MyEventHandlers.class);
+                myEventHandlers.setApplicationContext(context);
+                eventChannel.registerListenerHost(myEventHandlers);
             }
         });
     }
