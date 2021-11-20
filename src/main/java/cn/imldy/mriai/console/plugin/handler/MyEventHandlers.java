@@ -1,6 +1,7 @@
 package cn.imldy.mriai.console.plugin.handler;
 
 import cn.imldy.mriai.console.plugin.view.CardView;
+import cn.imldy.mriai.console.plugin.view.LifeBotView;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Stranger;
 import net.mamoe.mirai.event.EventHandler;
@@ -46,6 +47,8 @@ public class MyEventHandlers extends SimpleListenerHost {
             } else {
                 subject.sendMessage("请输入卡号，例如[311 999]");
             }
+        } else {
+            subject.sendMessage(LifeBotView.getMenuMessage());
         }
         return ListeningStatus.LISTENING;
     }
