@@ -12,4 +12,9 @@
         where
             qqId = #{qqId}
     </update>
+    <select id="getSouthWaterCardNoByUserQQId" resultType="string">
+        select southWaterCardNo
+        from user
+        where qqId = #{qqId}
+    </select>
 </mapper>

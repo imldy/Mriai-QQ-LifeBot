@@ -22,6 +22,11 @@ public class UserService {
         return result;
     }
 
+    public String getSouthWaterCardNoByUserQQId(long qqId) {
+        String southWaterCardNo = userMapper.getSouthWaterCardNoByUserQQId(String.valueOf(qqId));
+        return southWaterCardNo;
+    }
+
     public static void setApplicationContext(ApplicationContext applicationContext) {
         UserService.applicationContext = applicationContext;
     }

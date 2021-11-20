@@ -10,4 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
     boolean setSouthWaterCardNoByQQId(User user);
+
+    String getSouthWaterCardNoByUserQQId(String qqId);
 }
