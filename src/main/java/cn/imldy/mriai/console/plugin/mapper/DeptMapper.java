@@ -12,6 +12,6 @@ public interface DeptMapper {
     int addDept(Dept dept);
     Dept getDeptById(int id);
     Dept getDeptByName(String name);
-    boolean isExistByName(Dept dept);
+    boolean isExistByName(String name);
     boolean isExistById(Dept dept);
 }
