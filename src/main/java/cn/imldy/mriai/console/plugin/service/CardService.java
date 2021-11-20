@@ -63,8 +63,10 @@ public class CardService {
                     // 保存person数据到数据包，因id为自增，同时设置返回给定的id，所以dept对象id属性为数据库给的id
                     int row = personMapper.addPerson(person);
                 } else {
-                    // 如果数据库中有此数据，根据没有id的本数据，获取有id的数据
+                    // 如果数据库中有此数据，根据没有id的本数据，获取有id的数据，但是此对象没有dept的引用
                     person = personMapper.getPersonByNamePhone(person);
+                    // 再次引用dept
+                    person.setDept(dept);
                 }
             }
             card.setOwnerId(person.getId());
