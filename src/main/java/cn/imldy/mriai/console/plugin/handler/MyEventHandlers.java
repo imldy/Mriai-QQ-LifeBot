@@ -31,28 +31,29 @@ public class MyEventHandlers extends SimpleListenerHost {
     private UserView userView;
 
     @EventHandler
-    public ListeningStatus friendListener(FriendMessageEvent event) {
+    public ListeningStatus friendListener(FriendMessageEvent event) throws IOException {
         MessageChain messageChain = event.getMessage();
         Friend subject = event.getSubject();
         String content = messageChain.contentToString();
         String[] fields = content.split(" ");
+        String command = fields[0];
         if ("你好".equals(content)) {
             subject.sendMessage("你好 :)");
-        } else if ("31".equals(fields[0])) {
+        } else if ("31".equals(command)) {
             if (fields.length >= 2) {
                 String no = fields[1];
                 subject.sendMessage(cardView.getCardMessage(no));
             } else {
                 subject.sendMessage("请输入卡号，例如[31 999]");
             }
-        } else if ("311".equals(fields[0])) {
+        } else if ("311".equals(command)) {
             if (fields.length >= 2) {
                 String no = fields[1];
                 subject.sendMessage(cardView.getCardFormatMessage(no));
             } else {
                 subject.sendMessage("请输入卡号，例如[311 999]");
             }
-        } else if ("绑定".equals(fields[0])) {
+        } else if ("绑定".equals(command)) {
             if (fields.length >= 2) {
                 String cardType = fields[1];
                 if ("老校区水卡".equals(cardType)) {
