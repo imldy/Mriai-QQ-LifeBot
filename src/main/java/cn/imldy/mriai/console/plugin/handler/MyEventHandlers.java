@@ -1,6 +1,7 @@
 package cn.imldy.mriai.console.plugin.handler;
 
 import cn.imldy.mriai.console.plugin.bean.User;
+import cn.imldy.mriai.console.plugin.service.UserService;
 import cn.imldy.mriai.console.plugin.view.CardView;
 import cn.imldy.mriai.console.plugin.view.LifeBotView;
 import cn.imldy.mriai.console.plugin.view.UserView;
@@ -29,6 +30,8 @@ public class MyEventHandlers extends SimpleListenerHost {
     private CardView cardView;
     @Resource
     private UserView userView;
+    @Resource
+    private UserService userService;
 
     @EventHandler
     public ListeningStatus friendListener(FriendMessageEvent event) throws IOException {
@@ -44,14 +47,24 @@ public class MyEventHandlers extends SimpleListenerHost {
                 String no = fields[1];
                 subject.sendMessage(cardView.getCardMessage(no));
             } else {
-                subject.sendMessage("请输入卡号，例如[31 999]");
+                String cardNo = userService.getSouthWaterCardNoByUserQQId(event.getSender().getId());
+                if (cardNo != null) {
+                    subject.sendMessage(cardView.getCardMessage(cardNo));
+                } else {
+                    subject.sendMessage("请输入卡号，例如[31 999]，或者发送[绑定]获取绑定卡号的方法");
+                }
             }
         } else if ("311".equals(command)) {
             if (fields.length >= 2) {
                 String no = fields[1];
                 subject.sendMessage(cardView.getCardFormatMessage(no));
             } else {
-                subject.sendMessage("请输入卡号，例如[311 999]");
+                String cardNo = userService.getSouthWaterCardNoByUserQQId(event.getSender().getId());
+                if (cardNo != null) {
+                    subject.sendMessage(cardView.getCardFormatMessage(cardNo));
+                } else {
+                    subject.sendMessage("请输入卡号，例如[311 999]，或者发送[绑定]获取绑定卡号的方法");
+                }
             }
         } else if ("绑定".equals(command)) {
             if (fields.length >= 2) {
@@ -128,4 +141,5 @@ public class MyEventHandlers extends SimpleListenerHost {
     public void setCardView(CardView cardView) {
         this.cardView = cardView;
     }
+
 }
