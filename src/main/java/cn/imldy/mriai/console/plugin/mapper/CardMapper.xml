@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.imldy.mriai.console.plugin.mapper.CardMapper">
+
+    <insert id="addCard">
+        insert
+        into card
+        values (#{no},
+                #{status},
+                #{lastRechargeDate},
+                #{lastRechargeValue},
+                #{balance},
+                #{preStore},
+                #{ownerId})
+    </insert>
+    <update id="updateCard">
+        update card
+        set status=#{status},
+            lastRechargeDate=#{lastRechargeDate},
+            lastRechargeValue=#{lastRechargeValue},
+            balance=#{balance},
+            preStore=#{preStore},
+            ownerId=#{ownerId}
+        where no = #{no}
+    </update>
+    <select id="getCardByNo"
+            resultType="cn.imldy.mriai.console.plugin.bean.Card">
+        select *
+        from card
+        where no = #{no}
+    </select>
+    <select id="isExistByNo"
+            resultType="boolean">
+        select count(*)
+        from card
+        where no = #{no}
+    </select>
+</mapper>
