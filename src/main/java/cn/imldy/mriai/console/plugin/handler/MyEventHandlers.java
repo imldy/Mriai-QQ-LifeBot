@@ -8,6 +8,7 @@ import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.MessageChain;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
  * @author imldy
  * @date 2021/11/19 23:06
  **/
+@Component
 public class MyEventHandlers extends SimpleListenerHost {
     @EventHandler
     public ListeningStatus friendListener(FriendMessageEvent event) throws IOException {
