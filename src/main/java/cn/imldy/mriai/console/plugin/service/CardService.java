@@ -40,15 +40,15 @@ public class CardService {
             MuYuBaoCard muYuBaoCard = openApi.getMuYuBaoCardByNo(no);
             // 从沐浴宝卡片信息中，解析出三个类，Dept、Person、Card
             dept.setName(muYuBaoCard.getDepartmentName());
-            if (storage ) {
+            if (storage) {
                 if (!deptMapper.isExistByName(dept.getName())) {
                     // 保存dept数据到数据包，因id为自增，同时设置返回给定的id，所以dept对象id属性为数据库给的id
                     int row = deptMapper.addDept(dept);
-                }else {
+                } else {
                     // 如果已经存在，则根据姓名， 获取对象
                     dept = deptMapper.getDeptByName(dept.getName());
                 }
-            }else {
+            } else {
                 // 如果不需要保存，可能数据库中有此数据，也可能没此数据
             }
             person.setDeptId(dept.getId());
