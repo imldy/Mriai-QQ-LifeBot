@@ -2,12 +2,11 @@ package cn.imldy.mriai.console.plugin.handler;
 
 import cn.imldy.mriai.console.plugin.view.CardView;
 import net.mamoe.mirai.contact.Friend;
+import net.mamoe.mirai.contact.Stranger;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.event.events.FriendMessageEvent;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.event.events.MessageEvent;
+import net.mamoe.mirai.event.events.*;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -54,6 +53,35 @@ public class MyEventHandlers extends SimpleListenerHost {
     @EventHandler
     public ListeningStatus groupListener(GroupMessageEvent event) throws IOException {
 
+        return ListeningStatus.LISTENING;
+    }
+
+    @EventHandler
+    public ListeningStatus groupTempMessageEventListener(GroupTempMessageEvent event) {
+        // 群临时会话消息
+        event.getSubject().sendMessage("请添加为好友");
+        return ListeningStatus.LISTENING;
+    }
+
+    @EventHandler
+    public ListeningStatus strangerMessageEventListener(StrangerMessageEvent event) {
+        // 陌生人消息
+        event.getSubject().sendMessage("请添加为好友");
+        return ListeningStatus.LISTENING;
+    }
+
+    @EventHandler
+    public ListeningStatus newFriendRequestEventListener(NewFriendRequestEvent event) {
+        // 一个账号请求添加机器人为好友
+        // 接受加好友申请
+        event.accept();
+        return ListeningStatus.LISTENING;
+    }
+
+    @EventHandler
+    public ListeningStatus friendAddEventListener(FriendAddEvent event) {
+        // 成功添加了一个新好友
+        event.getFriend().sendMessage("我们目前是好友了");
         return ListeningStatus.LISTENING;
     }
 
