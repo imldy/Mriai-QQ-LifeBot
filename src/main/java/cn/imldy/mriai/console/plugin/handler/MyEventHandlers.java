@@ -40,6 +40,13 @@ public class MyEventHandlers extends SimpleListenerHost {
             } else {
                 subject.sendMessage("请输入卡号，例如[31 999]");
             }
+        } else if ("311".equals(fields[0])) {
+            if (fields.length >= 2) {
+                String no = fields[1];
+                subject.sendMessage(cardView.getCardFormatMessage(no));
+            } else {
+                subject.sendMessage("请输入卡号，例如[311 999]");
+            }
         }
         return ListeningStatus.LISTENING;
     }

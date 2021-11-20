@@ -30,6 +30,27 @@ public class CardView {
         return chain;
     }
 
+    public Message getCardFormatMessage(String no) {
+        ApplicationContext context = CardView.applicationContext;
+        Card card = cardService.getCardByNo(no);
+        // 构建一个消息Message类子类PlainTextPlainText
+        String text = String.format("卡号：%s" +
+                        "\n卡主：%s" +
+                        "\n卡主系别：%s" +
+                        "\n余额：%s"
+                , card.getNo()
+                , card.getOwner().getName()
+                , card.getOwner().getDept().getName()
+                , card.getBalance()
+        );
+        PlainText plainText = new PlainText(text);
+        // 构建一个MessageChain，并往里面添加Message
+        MessageChain chain = new MessageChainBuilder()
+                .append(plainText)
+                .build();
+        return chain;
+    }
+
     public CardView() {
         super();
     }
