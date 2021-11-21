@@ -35,17 +35,16 @@ public class MuYuBaoCardService {
      * @return MuYuBaoCard实例
      */
     public MuYuBaoCard getMuYuBaoCardByNo(String no) {
-        ApplicationContext context = applicationContext;
-        OpenApi openApi = context.getBean("openApi", OpenApi.class);
+        OpenApi openApi = applicationContext.getBean("openApi", OpenApi.class);
         boolean storage = true;
         MuYuBaoCard muYuBaoCard = null;
         try {
             muYuBaoCard = openApi.getMuYuBaoCardByNo(no);
             if (storage) {
                 // 获取三各类的实例，用于存储数据并于数据库交互
-                Dept dept = context.getBean(Dept.class);
-                Person person = context.getBean(Person.class);
-                Card card = context.getBean(Card.class);
+                Dept dept = applicationContext.getBean(Dept.class);
+                Person person = applicationContext.getBean(Person.class);
+                Card card = applicationContext.getBean(Card.class);
 
                 // 从沐浴宝卡片信息中，解析出Dept的信息
                 dept.setName(muYuBaoCard.getDepartmentName());
