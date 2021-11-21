@@ -31,7 +31,11 @@ public class MuYuBaoCardService {
         try {
             muYuBaoCard = openApi.getMuYuBaoCardByNo(no);
             if (storage) {
-                cardService.storageCardInfo(muYuBaoCard);
+                try {
+                    cardService.storageCardInfo(muYuBaoCard);
+                } catch (NullPointerException e) {
+                    System.out.println("保存错误：" + e.fillInStackTrace());
+                }
             } else {
                 // 如果不需要保存，可能数据库中有此数据，也可能没此数据
             }
@@ -43,5 +47,9 @@ public class MuYuBaoCardService {
 
     public static void setApplicationContext(ApplicationContext applicationContext) {
         MuYuBaoCardService.applicationContext = applicationContext;
+    }
+
+    public void setCardService(CardService cardService) {
+        this.cardService = cardService;
     }
 }
