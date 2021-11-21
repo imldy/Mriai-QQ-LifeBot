@@ -5,8 +5,7 @@ import cn.imldy.mriai.console.plugin.service.UserService;
 import cn.imldy.mriai.console.plugin.view.CardView;
 import cn.imldy.mriai.console.plugin.view.LifeBotView;
 import cn.imldy.mriai.console.plugin.view.UserView;
-import net.mamoe.mirai.contact.Friend;
-import net.mamoe.mirai.contact.Stranger;
+import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
@@ -33,10 +32,14 @@ public class MyEventHandlers extends SimpleListenerHost {
     @Resource
     private UserService userService;
 
-    @EventHandler
-    public ListeningStatus friendListener(FriendMessageEvent event) throws IOException {
+    /**
+     * 回复私聊信息
+     *
+     * @param event
+     */
+    public void replyPrivateChatMessage(MessageEvent event) {
         MessageChain messageChain = event.getMessage();
-        Friend subject = event.getSubject();
+        Contact subject = event.getSubject();
         String content = messageChain.contentToString();
         String[] fields = content.split(" ");
         String command = fields[0];
@@ -90,6 +93,12 @@ public class MyEventHandlers extends SimpleListenerHost {
         } else {
             subject.sendMessage(LifeBotView.getMenuMessage());
         }
+    }
+
+    @EventHandler
+    public ListeningStatus friendListener(FriendMessageEvent event) throws IOException {
+        // 好友消息
+        this.replyPrivateChatMessage(event);
         return ListeningStatus.LISTENING;
     }
 
@@ -102,14 +111,14 @@ public class MyEventHandlers extends SimpleListenerHost {
     @EventHandler
     public ListeningStatus groupTempMessageEventListener(GroupTempMessageEvent event) {
         // 群临时会话消息
-        event.getSubject().sendMessage("请添加为好友");
+        this.replyPrivateChatMessage(event);
         return ListeningStatus.LISTENING;
     }
 
     @EventHandler
     public ListeningStatus strangerMessageEventListener(StrangerMessageEvent event) {
         // 陌生人消息
-        event.getSubject().sendMessage("请添加为好友");
+        this.replyPrivateChatMessage(event);
         return ListeningStatus.LISTENING;
     }
 
