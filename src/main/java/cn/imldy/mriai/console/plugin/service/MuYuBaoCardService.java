@@ -38,15 +38,18 @@ public class MuYuBaoCardService {
         ApplicationContext context = applicationContext;
         OpenApi openApi = context.getBean("openApi", OpenApi.class);
         boolean storage = true;
-        Dept dept = context.getBean(Dept.class);
-        Person person = context.getBean(Person.class);
-        Card card = context.getBean(Card.class);
         MuYuBaoCard muYuBaoCard = null;
         try {
             muYuBaoCard = openApi.getMuYuBaoCardByNo(no);
-            // 从沐浴宝卡片信息中，解析出三个类，Dept、Person、Card
-            dept.setName(muYuBaoCard.getDepartmentName());
             if (storage) {
+                // 获取三各类的实例，用于存储数据并于数据库交互
+                Dept dept = context.getBean(Dept.class);
+                Person person = context.getBean(Person.class);
+                Card card = context.getBean(Card.class);
+
+                // 从沐浴宝卡片信息中，解析出Dept的信息
+                dept.setName(muYuBaoCard.getDepartmentName());
+                // 判断是否需要保存Dept信息
                 if (!deptMapper.isExistByName(dept.getName())) {
                     // 保存dept数据到数据包，因id为自增，同时设置返回给定的id，所以dept对象id属性为数据库给的id
                     int row = deptMapper.addDept(dept);
@@ -54,16 +57,15 @@ public class MuYuBaoCardService {
                     // 如果已经存在，则根据姓名， 获取对象
                     dept = deptMapper.getDeptByName(dept.getName());
                 }
-            } else {
-                // 如果不需要保存，可能数据库中有此数据，也可能没此数据
-            }
-            person.setDeptId(dept.getId());
-            person.setName(muYuBaoCard.getStaffName());
-            person.setDept(dept);
-            person.setPhone(muYuBaoCard.getPhone());
-            person.setSex(muYuBaoCard.getSex());
-            if (storage) {
-                // 如果需要保存，
+                // 得到数据库返回的Dept id
+                person.setDeptId(dept.getId());
+
+                // 从沐浴宝卡片信息中，解析出Person的信息
+                person.setName(muYuBaoCard.getStaffName());
+                person.setDept(dept);
+                person.setPhone(muYuBaoCard.getPhone());
+                person.setSex(muYuBaoCard.getSex());
+                // 判断是否需要保存Person信息
                 if (!personMapper.isExist(person)) {
                     // 如果需要保存，且数据库中无此数据
                     // 保存person数据到数据包，因id为自增，同时设置返回给定的id，所以dept对象id属性为数据库给的id
@@ -74,17 +76,19 @@ public class MuYuBaoCardService {
                     // 再次引用dept
                     person.setDept(dept);
                 }
-            }
-            card.setOwnerId(person.getId());
-            card.setNo(String.valueOf(muYuBaoCard.getCardNo()));
-            card.setOwner(person);
-            card.setStatus(muYuBaoCard.getStatus());
-            card.setLastRechargeDate(muYuBaoCard.getLastRechargeDate());
-            card.setLastRechargeValue(muYuBaoCard.getLastRechargeValue());
-            card.setBalance(muYuBaoCard.getBalance());
-            card.setPreStore(muYuBaoCard.getPreStore());
-            if (storage) {
-                // 如果保存
+                // 得到数据库返回的Person id
+                card.setOwnerId(person.getId());
+
+                // 从沐浴宝卡片信息中，解析出Card的信息
+                card.setNo(String.valueOf(muYuBaoCard.getCardNo()));
+                card.setOwner(person);
+                card.setStatus(muYuBaoCard.getStatus());
+                card.setLastRechargeDate(muYuBaoCard.getLastRechargeDate());
+                card.setLastRechargeValue(muYuBaoCard.getLastRechargeValue());
+                card.setBalance(muYuBaoCard.getBalance());
+                card.setPreStore(muYuBaoCard.getPreStore());
+
+                // 判断是否需要保存Card信息
                 if (!cardMapper.isExistByNo(card.getNo())) {
                     // 如果不存在
                     boolean addResult = cardMapper.addCard(card);
@@ -92,6 +96,8 @@ public class MuYuBaoCardService {
                     // 如果存在
                     boolean updateResult = cardMapper.updateCard(card);
                 }
+            } else {
+                // 如果不需要保存，可能数据库中有此数据，也可能没此数据
             }
         } catch (IOException ioException) {
             ioException.fillInStackTrace();
