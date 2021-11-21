@@ -40,7 +40,7 @@ public class MuYuBaoCardService {
                 // 如果不需要保存，可能数据库中有此数据，也可能没此数据
             }
         } catch (IOException ioException) {
-            ioException.fillInStackTrace();
+            System.out.println("保存错误：" + ioException.fillInStackTrace());
         }
         return muYuBaoCard;
     }

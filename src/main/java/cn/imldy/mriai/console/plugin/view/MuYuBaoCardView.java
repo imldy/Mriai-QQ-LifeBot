@@ -20,6 +20,9 @@ public class MuYuBaoCardView {
 
     public Message getMuYuBaoCardMessage(String no) {
         MuYuBaoCard muYuBaoCard = muYuBaoCardService.getMuYuBaoCardByNo(no);
+        if (muYuBaoCard == null) {
+            return new PlainText("卡片信息获取失败");
+        }
         // 构建一个消息Message类子类PlainTextPlainText
         PlainText plainText = new PlainText(muYuBaoCard.toString());
         // 构建一个MessageChain，并往里面添加Message
@@ -31,6 +34,9 @@ public class MuYuBaoCardView {
 
     public Message getMuYuBaoCardFormatMessage(String no) {
         MuYuBaoCard muYuBaoCard = muYuBaoCardService.getMuYuBaoCardByNo(no);
+        if (muYuBaoCard == null) {
+            return new PlainText("卡片信息获取失败");
+        }
         // 构建一个消息Message类子类PlainTextPlainText
         String text = String.format("卡号：%s" +
                         "\n卡主：%s" +
