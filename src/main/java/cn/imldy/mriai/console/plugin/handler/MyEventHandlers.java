@@ -2,7 +2,7 @@ package cn.imldy.mriai.console.plugin.handler;
 
 import cn.imldy.mriai.console.plugin.bean.User;
 import cn.imldy.mriai.console.plugin.service.UserService;
-import cn.imldy.mriai.console.plugin.view.CardView;
+import cn.imldy.mriai.console.plugin.view.MuYuBaoCardView;
 import cn.imldy.mriai.console.plugin.view.LifeBotView;
 import cn.imldy.mriai.console.plugin.view.UserView;
 import net.mamoe.mirai.contact.Contact;
@@ -26,7 +26,7 @@ import java.io.IOException;
 public class MyEventHandlers extends SimpleListenerHost {
     private ApplicationContext applicationContext;
     @Resource
-    private CardView cardView;
+    private MuYuBaoCardView muYuBaoCardView;
     @Resource
     private UserView userView;
     @Resource
@@ -48,11 +48,11 @@ public class MyEventHandlers extends SimpleListenerHost {
         } else if ("31".equals(command)) {
             if (fields.length >= 2) {
                 String no = fields[1];
-                subject.sendMessage(cardView.getCardMessage(no));
+                subject.sendMessage(muYuBaoCardView.getMuYuBaoCardMessage(no));
             } else {
                 String cardNo = userService.getSouthWaterCardNoByUserQQId(event.getSender().getId());
                 if (cardNo != null) {
-                    subject.sendMessage(cardView.getCardMessage(cardNo));
+                    subject.sendMessage(muYuBaoCardView.getMuYuBaoCardMessage(cardNo));
                 } else {
                     subject.sendMessage("请输入卡号，例如[31 999]，或者发送[绑定]获取绑定卡号的方法");
                 }
@@ -60,11 +60,11 @@ public class MyEventHandlers extends SimpleListenerHost {
         } else if ("311".equals(command)) {
             if (fields.length >= 2) {
                 String no = fields[1];
-                subject.sendMessage(cardView.getCardFormatMessage(no));
+                subject.sendMessage(muYuBaoCardView.getMuYuBaoCardFormatMessage(no));
             } else {
                 String cardNo = userService.getSouthWaterCardNoByUserQQId(event.getSender().getId());
                 if (cardNo != null) {
-                    subject.sendMessage(cardView.getCardFormatMessage(cardNo));
+                    subject.sendMessage(muYuBaoCardView.getMuYuBaoCardFormatMessage(cardNo));
                 } else {
                     subject.sendMessage("请输入卡号，例如[311 999]，或者发送[绑定]获取绑定卡号的方法");
                 }
@@ -147,8 +147,8 @@ public class MyEventHandlers extends SimpleListenerHost {
         this.applicationContext = applicationContext;
     }
 
-    public void setCardView(CardView cardView) {
-        this.cardView = cardView;
+    public void setMuYuBaoCardView(MuYuBaoCardView muYuBaoCardView) {
+        this.muYuBaoCardView = muYuBaoCardView;
     }
 
 }

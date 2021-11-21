@@ -1,9 +1,9 @@
 package cn.imldy.mriai.console.plugin;
 
 import cn.imldy.mriai.console.plugin.handler.MyEventHandlers;
-import cn.imldy.mriai.console.plugin.service.CardService;
+import cn.imldy.mriai.console.plugin.service.MuYuBaoCardService;
 import cn.imldy.mriai.console.plugin.service.UserService;
-import cn.imldy.mriai.console.plugin.view.CardView;
+import cn.imldy.mriai.console.plugin.view.MuYuBaoCardView;
 import cn.imldy.mriai.console.plugin.view.UserView;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
@@ -12,7 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -47,8 +46,8 @@ public class LifeBotMain {
     public static void afterLogin(Bot bot) {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         // 给类设置静态属性
-        CardView.setApplicationContext(context);
-        CardService.setApplicationContext(context);
+        MuYuBaoCardView.setApplicationContext(context);
+        MuYuBaoCardService.setApplicationContext(context);
         UserView.setApplicationContext(context);
         UserService.setApplicationContext(context);
         // 获取事件处理器

@@ -19,7 +19,7 @@ import java.io.IOException;
  * @date 2021/11/20 1:07
  **/
 @Service
-public class CardService {
+public class MuYuBaoCardService {
     private static ApplicationContext applicationContext;
     @Resource
     private PersonMapper personMapper;
@@ -32,17 +32,18 @@ public class CardService {
      * 根据卡号，获取Card实例
      *
      * @param no 卡号
-     * @return Card实例
+     * @return MuYuBaoCard实例
      */
-    public Card getCardByNo(String no) {
+    public MuYuBaoCard getMuYuBaoCardByNo(String no) {
         ApplicationContext context = applicationContext;
         OpenApi openApi = context.getBean("openApi", OpenApi.class);
         boolean storage = true;
         Dept dept = context.getBean(Dept.class);
         Person person = context.getBean(Person.class);
         Card card = context.getBean(Card.class);
+        MuYuBaoCard muYuBaoCard = null;
         try {
-            MuYuBaoCard muYuBaoCard = openApi.getMuYuBaoCardByNo(no);
+            muYuBaoCard = openApi.getMuYuBaoCardByNo(no);
             // 从沐浴宝卡片信息中，解析出三个类，Dept、Person、Card
             dept.setName(muYuBaoCard.getDepartmentName());
             if (storage) {
@@ -95,10 +96,10 @@ public class CardService {
         } catch (IOException ioException) {
             ioException.fillInStackTrace();
         }
-        return card;
+        return muYuBaoCard;
     }
 
     public static void setApplicationContext(ApplicationContext applicationContext) {
-        CardService.applicationContext = applicationContext;
+        MuYuBaoCardService.applicationContext = applicationContext;
     }
 }
