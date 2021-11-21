@@ -19,7 +19,6 @@ public class CardView {
     private CardService cardService;
 
     public Message getCardMessage(String no) {
-        ApplicationContext context = CardView.applicationContext;
         Card card = cardService.getCardByNo(no);
         // 构建一个消息Message类子类PlainTextPlainText
         PlainText plainText = new PlainText(card.toString());
@@ -31,7 +30,6 @@ public class CardView {
     }
 
     public Message getCardFormatMessage(String no) {
-        ApplicationContext context = CardView.applicationContext;
         Card card = cardService.getCardByNo(no);
         // 构建一个消息Message类子类PlainTextPlainText
         String text = String.format("卡号：%s" +
