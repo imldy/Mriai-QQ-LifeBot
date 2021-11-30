@@ -38,6 +38,10 @@ public class MyEventHandlers extends SimpleListenerHost {
      * @param event
      */
     public void replyPrivateChatMessage(MessageEvent event) {
+        if (event.getBot().getId() == event.getSender().getId()) {
+            // 禁止回复自己发送的消息，防止无限循环
+            return;
+        }
         MessageChain messageChain = event.getMessage();
         Contact subject = event.getSubject();
         String content = messageChain.contentToString();
