@@ -2,6 +2,7 @@ package cn.imldy.mriai.console.plugin.service;
 
 import cn.imldy.mriai.console.plugin.api.OpenApi;
 import cn.imldy.mriai.console.plugin.bean.MuYuBaoCard;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,8 @@ import java.io.IOException;
  **/
 @Service
 public class MuYuBaoCardService {
-    private static ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
     @Resource
     private CardService cardService;
 
@@ -43,10 +45,6 @@ public class MuYuBaoCardService {
             System.out.println("保存错误：" + ioException.fillInStackTrace());
         }
         return muYuBaoCard;
-    }
-
-    public static void setApplicationContext(ApplicationContext applicationContext) {
-        MuYuBaoCardService.applicationContext = applicationContext;
     }
 
     public void setCardService(CardService cardService) {

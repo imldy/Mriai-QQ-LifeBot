@@ -5,6 +5,7 @@ import cn.imldy.mriai.console.plugin.service.UserService;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,8 @@ import javax.annotation.Resource;
  **/
 @Component
 public class UserView {
-    private static ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
     @Resource
     private UserService userService;
 
@@ -38,9 +40,5 @@ public class UserView {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
-    }
-
-    public static void setApplicationContext(ApplicationContext applicationContext) {
-        UserView.applicationContext = applicationContext;
     }
 }

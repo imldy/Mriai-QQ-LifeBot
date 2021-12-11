@@ -3,6 +3,7 @@ package cn.imldy.mriai.console.plugin.view;
 import cn.imldy.mriai.console.plugin.bean.MuYuBaoCard;
 import cn.imldy.mriai.console.plugin.service.MuYuBaoCardService;
 import net.mamoe.mirai.message.data.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,8 @@ import javax.annotation.Resource;
  **/
 @Component
 public class MuYuBaoCardView {
-    private static ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
     @Resource
     private MuYuBaoCardService muYuBaoCardService;
 
@@ -57,15 +59,6 @@ public class MuYuBaoCardView {
 
     public MuYuBaoCardView() {
         super();
-    }
-
-    public MuYuBaoCardView(ApplicationContext applicationContext) {
-        super();
-        MuYuBaoCardView.setApplicationContext(applicationContext);
-    }
-
-    public static void setApplicationContext(ApplicationContext applicationContext) {
-        MuYuBaoCardView.applicationContext = applicationContext;
     }
 
     public MuYuBaoCardService getMuYuBaoCardService() {

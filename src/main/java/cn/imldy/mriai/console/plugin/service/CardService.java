@@ -7,6 +7,7 @@ import cn.imldy.mriai.console.plugin.bean.Person;
 import cn.imldy.mriai.console.plugin.mapper.CardMapper;
 import cn.imldy.mriai.console.plugin.mapper.DeptMapper;
 import cn.imldy.mriai.console.plugin.mapper.PersonMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,8 @@ import javax.annotation.Resource;
  **/
 @Service
 public class CardService {
-    private static ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
     @Resource
     private PersonMapper personMapper;
     @Resource
@@ -82,9 +84,5 @@ public class CardService {
             boolean updateResult = cardMapper.updateCard(card);
         }
         return true;
-    }
-
-    public static void setApplicationContext(ApplicationContext applicationContext) {
-        CardService.applicationContext = applicationContext;
     }
 }

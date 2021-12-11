@@ -12,6 +12,7 @@ import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.*;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ import java.io.IOException;
  **/
 @Component
 public class MyEventHandlers extends SimpleListenerHost {
+    @Autowired
     private ApplicationContext applicationContext;
     @Resource
     private MuYuBaoCardView muYuBaoCardView;
